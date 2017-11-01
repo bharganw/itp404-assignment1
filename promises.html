@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>HW 1 Promises</title>
+</head>
+<body>
+
+<ul id="results"></ul>
+
+<button>Click me</button>
+
+<script src="jquery-3.2.1.js"></script>
+<script>
+  function fetchPostsForSubreddit(username) {
+    return $.getJSON('https://www.reddit.com/r/' + username + '.json');
+  }
+
+$('button').on('click', function() {
+  $('#results').text('Loading...');
+
+  // promises have 3 states: resolved, rejected, pending
+  fetchPostsForSubreddit('javascript').then(function(results) {
+  	$('#results').text('');
+  	$(results.data.children).each(function(index, child) {
+	    $('#results').append($(document.createElement('li')).text(child.data.title));
+	});
+  }, function(error) {
+    console.log('some error');
+  });
+});
+
+
+</script>
+</body>
+</html>
